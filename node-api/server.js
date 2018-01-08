@@ -56,7 +56,7 @@ router.get('/', function(req, res) {
 // ----------------------------------------------------
 router.route('/jodels')
 
-  // create a jodel (accessed at POST http://localhost:8080/jodels)
+  // create a jodel (accessed at POST http://localhost:8080/api/jodels)
   .post(jodel.postJodel)
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
