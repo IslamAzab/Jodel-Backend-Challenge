@@ -46,7 +46,7 @@ var router = express.Router();
 // instead of built-in memory store
 var cacheWithRedis = apicache
                       .options({
-                        redisClient: redis.createClient(),
+                        redisClient: redis.createClient('6379', 'redis_for_jodel'),
                         headers: {'cache-control': 'no-cache'}
                       })
                       .middleware

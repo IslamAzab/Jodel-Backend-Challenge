@@ -1,3 +1,3 @@
 {
-  "db_url" : "mongodb://127.0.0.1:27017/jodel"
+  "db_url" : "mongodb://mongo_for_jodel:27017/jodel"
 }
