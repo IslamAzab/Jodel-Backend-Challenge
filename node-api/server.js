@@ -44,16 +44,19 @@ var router = express.Router();
 
 // if redisClient option is defined, apicache will use redis client
 // instead of built-in memory store
-let cacheWithRedis = apicache
-                      .options({ redisClient: redis.createClient() })
+var cacheWithRedis = apicache
+                      .options({
+                        redisClient: redis.createClient(),
+                        headers: {'cache-control': 'no-cache'}
+                      })
                       .middleware
 
 // higher-order function returns false for responses of other status codes (e.g. 403, 404, 500, etc)
-const onlyStatus200 = function(req, res) {
-  res.statusCode === 200
-}
+var onlyStatus200 = function(req, res) {
+  res.statusCode === 200;
+};
 
-const cacheSuccesses = cacheWithRedis('5 seconds', onlyStatus200)
+var cacheSuccesses = cacheWithRedis('5 seconds', onlyStatus200);
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
