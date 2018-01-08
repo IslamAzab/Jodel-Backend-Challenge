@@ -67,44 +67,13 @@ router.route('/jodels')
 router.route('/jodels/:jodel_id')
 
   // get the jodel with that id
-  .get(function(req, res) {
-    Jodel.findById(req.params.jodel_id, function(err, jodel) {
-      if (err)
-        res.send(err);
-      res.json(jodel);
-    });
-  })
+  .get(jodel.getJodel)
 
   // update the jodel with this id
-  .put(function(req, res) {
-    Jodel.findById(req.params.jodel_id, function(err, jodel) {
-
-      if (err)
-        res.send(err);
-
-      jodel.name = req.body.name;
-      jodel.score = req.body.score;
-      jodel.save(function(err) {
-        if (err)
-          res.send(err);
-
-        res.json({ message: 'Jodel updated!' });
-      });
-
-    });
-  })
+  .put(jodel.putJodel)
 
   // delete the jodel with this id
-  .delete(function(req, res) {
-    Jodel.remove({
-      _id: req.params.jodel_id
-    }, function(err, jodel) {
-      if (err)
-        res.send(err);
-
-      res.json({ message: 'Successfully deleted' });
-    });
-  });
+  .delete(jodel.deleteJodel);
 
 
 // REGISTER OUR ROUTES -------------------------------

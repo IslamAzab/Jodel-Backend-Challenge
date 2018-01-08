@@ -38,4 +38,48 @@ function getJodels(req, res) {
   });
 }
 
-module.exports = {postJodel, getJodels};
+/**
+ * GET /api/jodels/:jodel_id to get a jodel by id
+ */
+function getJodel(req, res) {
+  Jodel.findById(req.params.jodel_id, function(err, jodel) {
+    if (err)
+      res.send(err);
+    res.json(jodel);
+  });
+}
+
+/**
+ * PUT /api/jodels/:jodel_id to update a jodel by id
+ */
+function putJodel(req, res) {
+  Jodel.findById(req.params.jodel_id, function(err, jodel) {
+    if (err)
+      res.send(err);
+
+    jodel.name = req.body.name;
+    jodel.score = req.body.score;
+    jodel.save(function(err) {
+      if (err)
+        res.send(err);
+
+      res.json({message: 'Jodel updated!'});
+    });
+  });
+}
+
+/**
+ * DELETE /api/jodels/:jodel_id to delete a jodel by id
+ */
+function deleteJodel(req, res) {
+  Jodel.remove({
+    _id: req.params.jodel_id
+  }, function(err, jodel) {
+    if (err)
+      res.send(err);
+
+    res.json({message: 'Successfully deleted'});
+  });
+}
+
+module.exports = {postJodel, getJodels, getJodel, putJodel, deleteJodel};
