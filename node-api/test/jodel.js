@@ -38,10 +38,9 @@ describe('Jodels', () => {
       chai.request(server)
           .get('/api/jodels')
           .end((err, res) => {
-              console.log(res.body)
               res.should.have.status(200);
               res.body.docs.should.be.a('array');
-              res.body.docs.length.should.be.eql(0);
+              res.body.docs.length.should.be.eql(1);
               res.body.total.should.be.eql(1);
               res.body.limit.should.be.eql(10);
               res.body.page.should.be.eql(1);
@@ -53,13 +52,32 @@ describe('Jodels', () => {
           .get('/api/jodels')
           .query({page: 2, limit: 20})
           .end((err, res) => {
-              console.log(res.body)
               res.should.have.status(200);
               res.body.docs.should.be.a('array');
               res.body.docs.length.should.be.eql(0);
               res.body.total.should.be.eql(0);
               res.body.limit.should.be.eql(20);
               res.body.page.should.be.eql(2);
+            done();
+          });
+    });
+    it('it should GET all the jodels filtered by score', (done) => {
+      var jodel1 = new Jodel({name: "the 1st jodel", score: 1});
+      jodel1.save();
+      var jodel2 = new Jodel({name: "the 2nd jodel", score: 2});
+      jodel2.save();
+      chai.request(server)
+          .get('/api/jodels')
+          .query({score: 2})
+          .end((err, res) => {
+              console.log(res.body)
+              res.should.have.status(200);
+              res.body.docs.should.be.a('array');
+              res.body.docs.length.should.be.eql(1);
+              res.body.total.should.be.eql(1);
+              res.body.limit.should.be.eql(10);
+              res.body.page.should.be.eql(1);
+              res.body.docs[0]._id.should.be.eql(jodel2.id);
             done();
           });
     });
