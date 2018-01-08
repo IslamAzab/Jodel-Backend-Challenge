@@ -62,10 +62,11 @@ router.route('/jodels')
     jodel.score = req.body.score;  // set the jodels score (comes from the request)
 
     jodel.save(function(err) {
-      if (err)
-        res.send(err);
-
-      res.json({ message: 'Jodel created!' });
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.json({ message: 'Jodel created!' });
+      }
     });
   })
 
