@@ -28,8 +28,8 @@ db.once('open', function() {
   console.log("DB connection alive");
 });
 
-// Bear models lives here
-var Bear     = require('./app/models/bear');
+// Jodel models lives here
+var Jodel     = require('./app/models/jodel');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -49,71 +49,71 @@ router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' }); 
 });
 
-// on routes that end in /bears
+// on routes that end in /jodels
 // ----------------------------------------------------
-router.route('/bears')
+router.route('/jodels')
 
-  // create a bear (accessed at POST http://localhost:8080/bears)
+  // create a jodel (accessed at POST http://localhost:8080/jodels)
   .post(function(req, res) {
 
-    var bear = new Bear();    // create a new instance of the Bear model
-    bear.name = req.body.name;  // set the bears name (comes from the request)
+    var jodel = new Jodel();    // create a new instance of the Jodel model
+    jodel.name = req.body.name;  // set the jodels name (comes from the request)
 
-    bear.save(function(err) {
+    jodel.save(function(err) {
       if (err)
         res.send(err);
 
-      res.json({ message: 'Bear created!' });
+      res.json({ message: 'Jodel created!' });
     });
 
   })
 
-  // get all the bears (accessed at GET http://localhost:8080/api/bears)
+  // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
   .get(function(req, res) {
-    Bear.find(function(err, bears) {
+    Jodel.find(function(err, jodels) {
       if (err)
         res.send(err);
 
-      res.json(bears);
+      res.json(jodels);
     });
   });
 
-// on routes that end in /bears/:bear_id
+// on routes that end in /jodels/:jodel_id
 // ----------------------------------------------------
-router.route('/bears/:bear_id')
+router.route('/jodels/:jodel_id')
 
-  // get the bear with that id
+  // get the jodel with that id
   .get(function(req, res) {
-    Bear.findById(req.params.bear_id, function(err, bear) {
+    Jodel.findById(req.params.jodel_id, function(err, jodel) {
       if (err)
         res.send(err);
-      res.json(bear);
+      res.json(jodel);
     });
   })
 
-  // update the bear with this id
+  // update the jodel with this id
   .put(function(req, res) {
-    Bear.findById(req.params.bear_id, function(err, bear) {
+    Jodel.findById(req.params.jodel_id, function(err, jodel) {
 
       if (err)
         res.send(err);
 
-      bear.name = req.body.name;
-      bear.save(function(err) {
+      jodel.name = req.body.name;
+      jodel.save(function(err) {
         if (err)
           res.send(err);
 
-        res.json({ message: 'Bear updated!' });
+        res.json({ message: 'Jodel updated!' });
       });
 
     });
   })
 
-  // delete the bear with this id
+  // delete the jodel with this id
   .delete(function(req, res) {
-    Bear.remove({
-      _id: req.params.bear_id
-    }, function(err, bear) {
+    Jodel.remove({
+      _id: req.params.jodel_id
+    }, function(err, jodel) {
       if (err)
         res.send(err);
 
