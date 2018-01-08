@@ -58,6 +58,7 @@ router.route('/jodels')
 
     var jodel = new Jodel();    // create a new instance of the Jodel model
     jodel.name = req.body.name;  // set the jodels name (comes from the request)
+    jodel.score = req.body.score;  // set the jodels score (comes from the request)
 
     jodel.save(function(err) {
       if (err)
@@ -99,6 +100,7 @@ router.route('/jodels/:jodel_id')
         res.send(err);
 
       jodel.name = req.body.name;
+      jodel.score = req.body.score;
       jodel.save(function(err) {
         if (err)
           res.send(err);
