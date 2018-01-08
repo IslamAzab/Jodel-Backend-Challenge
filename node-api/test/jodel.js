@@ -81,6 +81,26 @@ describe('Jodels', () => {
             done();
           });
     });
+    it('it should GET all the jodels filtered by name', (done) => {
+      var jodel1 = new Jodel({name: "the 1st jodel", score: 1});
+      jodel1.save();
+      var jodel2 = new Jodel({name: "the 2nd jodel", score: 2});
+      jodel2.save();
+      chai.request(server)
+          .get('/api/jodels')
+          .query({name: "the 1st jodel"})
+          .end((err, res) => {
+              console.log(res.body)
+              res.should.have.status(200);
+              res.body.docs.should.be.a('array');
+              res.body.docs.length.should.be.eql(1);
+              res.body.total.should.be.eql(1);
+              res.body.limit.should.be.eql(10);
+              res.body.page.should.be.eql(1);
+              res.body.docs[0]._id.should.be.eql(jodel1.id);
+            done();
+          });
+    });
   });
 
   /*
