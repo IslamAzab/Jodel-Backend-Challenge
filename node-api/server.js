@@ -6,6 +6,7 @@ var express    = require('express');
 var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
+var config     = require('config'); //we load the db location from the JSON files
 
 // configure app
 app.use(morgan('dev')); // log requests to the console
@@ -18,7 +19,7 @@ var port     = process.env.PORT || 8080; // set our port
 
 // DATABASE SETUP
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/jodel'); // connect to our database
+mongoose.connect(config.db_url); // connect to our database
 
 // Handle the connection event
 var db = mongoose.connection;
