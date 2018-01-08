@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var app        = express();
 var morgan     = require('morgan');
 var config     = require('config'); //we load the db location from the JSON files
+var redis      = require('redis');
+var apicache   = require('apicache');
 
 var jodel = require('./routes/jodel');
 
@@ -40,6 +42,19 @@ var Jodel     = require('./app/models/jodel');
 // create our router
 var router = express.Router();
 
+// if redisClient option is defined, apicache will use redis client
+// instead of built-in memory store
+let cacheWithRedis = apicache
+                      .options({ redisClient: redis.createClient() })
+                      .middleware
+
+// higher-order function returns false for responses of other status codes (e.g. 403, 404, 500, etc)
+const onlyStatus200 = function(req, res) {
+  res.statusCode === 200
+}
+
+const cacheSuccesses = cacheWithRedis('5 seconds', onlyStatus200)
+
 // middleware to use for all requests
 router.use(function(req, res, next) {
   // do logging
@@ -60,7 +75,7 @@ router.route('/jodels')
   .post(jodel.postJodel)
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
-  .get(jodel.getJodels);
+  .get(cacheSuccesses, jodel.getJodels);
 
 // on routes that end in /jodels/:jodel_id
 // ----------------------------------------------------
