@@ -32,6 +32,35 @@ describe('Jodels', () => {
             done();
           });
     });
+    it('it should GET all the jodels with default page(1) and limit(10)', (done) => {
+      chai.request(server)
+          .get('/api/jodels')
+          .end((err, res) => {
+              console.log(res.body)
+              res.should.have.status(200);
+              res.body.docs.should.be.a('array');
+              res.body.docs.length.should.be.eql(0);
+              res.body.total.should.be.eql(0);
+              res.body.limit.should.be.eql(10);
+              res.body.page.should.be.eql(1);
+            done();
+          });
+    });
+    it('it should GET all the jodels with different page(2) and limit(20)', (done) => {
+      chai.request(server)
+          .get('/api/jodels')
+          .query({page: 2, limit: 20})
+          .end((err, res) => {
+              console.log(res.body)
+              res.should.have.status(200);
+              res.body.docs.should.be.a('array');
+              res.body.docs.length.should.be.eql(0);
+              res.body.total.should.be.eql(0);
+              res.body.limit.should.be.eql(20);
+              res.body.page.should.be.eql(2);
+            done();
+          });
+    });
   });
 
   /*
