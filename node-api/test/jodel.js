@@ -54,6 +54,19 @@ describe('Jodels', () => {
             done();
           });
     });
+    it('should fail if a score field is missing', (done) => {
+        let jodel = { name: "the one jodel" };
+        chai.request(server)
+            .post('/api/jodels')
+            .send(jodel)
+            .end((err, res) => {
+                res.should.have.status(400);
+                res.body.should.be.a('object');
+                res.body.should.have.property('errors');
+                res.body.should.have.property('message').eql('Jodel validation failed: score: Path `score` is required.');
+                done();
+            });
+    });
   });
 
 });
