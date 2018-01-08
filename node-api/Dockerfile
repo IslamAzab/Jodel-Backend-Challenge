@@ -6,11 +6,13 @@ WORKDIR /src
 COPY ./config /src/config
 COPY ./package.json /src/package.json
 
-RUN npm install
 COPY ./app /src/app
 COPY ./routes /src/routes
 
 COPY ./server.js /src/server.js
+
+RUN npm install
+
 EXPOSE 8080
 
 CMD node server.js

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  node:
+  jodel_api:
     build: ./node-api
     links:
         - mongo_for_jodel
