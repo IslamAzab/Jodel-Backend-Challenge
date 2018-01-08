@@ -72,7 +72,7 @@ router.route('/jodels')
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
   .get(function(req, res) {
-    var page = req.query.page || 1;
+    var page = parseInt(req.query.page) || 1;
     var limit = parseInt(req.query.limit) || 10;
 
     // keep only filter field values
