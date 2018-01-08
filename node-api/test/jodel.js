@@ -38,7 +38,7 @@ describe('Jodels', () => {
   * Test the /POST route
   */
   describe('/POST jodels', () => {
-    it('it should not POST a simple jodel', (done) => {
+    it('it should POST a simple jodel', (done) => {
       let jodel = {
           name: "the one jodel",
           score: 1984
