@@ -8,6 +8,8 @@ var app        = express();
 var morgan     = require('morgan');
 var config     = require('config'); //we load the db location from the JSON files
 
+var jodel = require('./routes/jodel');
+
 // configure app
 app.use(morgan('dev')); // log requests to the console
 
@@ -55,20 +57,7 @@ router.get('/', function(req, res) {
 router.route('/jodels')
 
   // create a jodel (accessed at POST http://localhost:8080/jodels)
-  .post(function(req, res) {
-
-    var jodel = new Jodel();    // create a new instance of the Jodel model
-    jodel.name = req.body.name;  // set the jodels name (comes from the request)
-    jodel.score = req.body.score;  // set the jodels score (comes from the request)
-
-    jodel.save(function(err) {
-      if (err) {
-        res.status(400).send(err);
-      } else {
-        res.json({ message: 'Jodel created!' });
-      }
-    });
-  })
+  .post(jodel.postJodel)
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
   .get(function(req, res) {
