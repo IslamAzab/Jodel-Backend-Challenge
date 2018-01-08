@@ -73,7 +73,12 @@ router.route('/jodels')
     var page = req.query.page || 1;
     var limit = parseInt(req.query.limit) || 10;
 
-    Jodel.paginate({}, { page: page, limit: limit }, function(err, jodels) {
+    // keep only filter field values
+    var query = req.query;
+    delete query.page;
+    delete query.limit;
+
+    Jodel.paginate(query, { page: page, limit: limit }, function(err, jodels) {
       if (err)
         res.send(err);
 
