@@ -66,12 +66,14 @@ router.route('/jodels')
 
       res.json({ message: 'Jodel created!' });
     });
-
   })
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
   .get(function(req, res) {
-    Jodel.find(function(err, jodels) {
+    var page = req.query.page || 1;
+    var limit = parseInt(req.query.limit) || 1;
+
+    Jodel.paginate({}, { page: page, limit: limit }, function(err, jodels) {
       if (err)
         res.send(err);
 
