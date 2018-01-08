@@ -60,22 +60,7 @@ router.route('/jodels')
   .post(jodel.postJodel)
 
   // get all the jodels (accessed at GET http://localhost:8080/api/jodels)
-  .get(function(req, res) {
-    var page = parseInt(req.query.page) || 1;
-    var limit = parseInt(req.query.limit) || 10;
-
-    // keep only filter field values
-    var query = req.query;
-    delete query.page;
-    delete query.limit;
-
-    Jodel.paginate(query, { page: page, limit: limit }, function(err, jodels) {
-      if (err)
-        res.send(err);
-
-      res.json(jodels);
-    });
-  });
+  .get(jodel.getJodels);
 
 // on routes that end in /jodels/:jodel_id
 // ----------------------------------------------------

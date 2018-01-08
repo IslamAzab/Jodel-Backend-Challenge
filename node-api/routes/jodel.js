@@ -17,4 +17,25 @@ function postJodel(req, res) {
   });
 }
 
-module.exports = {postJodel};
+
+/**
+ * GET /api/jodels to get all jodels
+ */
+function getJodels(req, res) {
+  var page = parseInt(req.query.page) || 1;
+  var limit = parseInt(req.query.limit) || 10;
+
+  // keep only filter field values
+  var query = req.query;
+  delete query.page;
+  delete query.limit;
+
+  Jodel.paginate(query, {page: page, limit: limit}, function(err, jodels) {
+    if (err)
+      res.send(err);
+
+    res.json(jodels);
+  });
+}
+
+module.exports = {postJodel, getJodels};
