@@ -34,4 +34,26 @@ describe('Jodels', () => {
     });
   });
 
+  /*
+  * Test the /POST route
+  */
+  describe('/POST jodels', () => {
+    it('it should not POST a simple jodel', (done) => {
+      let jodel = {
+          name: "the one jodel",
+          score: 1984
+      }
+      chai.request(server)
+          .post('/api/jodels')
+          .send(jodel)
+          .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('message');
+              res.body.should.have.property('message').eql('Jodel created!');
+            done();
+          });
+    });
+  });
+
 });
