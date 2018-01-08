@@ -33,6 +33,8 @@ describe('Jodels', () => {
           });
     });
     it('it should GET all the jodels with default page(1) and limit(10)', (done) => {
+      var jodel = new Jodel({name: "the one jodel", score: 1});
+      jodel.save();
       chai.request(server)
           .get('/api/jodels')
           .end((err, res) => {
@@ -40,7 +42,7 @@ describe('Jodels', () => {
               res.should.have.status(200);
               res.body.docs.should.be.a('array');
               res.body.docs.length.should.be.eql(0);
-              res.body.total.should.be.eql(0);
+              res.body.total.should.be.eql(1);
               res.body.limit.should.be.eql(10);
               res.body.page.should.be.eql(1);
             done();
