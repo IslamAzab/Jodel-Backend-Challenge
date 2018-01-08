@@ -3,8 +3,8 @@ var mongoosePaginate = require('mongoose-paginate');
 var Schema       = mongoose.Schema;
 
 var JodelSchema   = new Schema({
-  name: String,
-  score: Number
+  name: {type: String, required: true},
+  score: {type: Number, required: true}
 });
 
 JodelSchema.plugin(mongoosePaginate);
