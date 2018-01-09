@@ -8,7 +8,7 @@ services:
     ports:
         - "8080:8080"
   mongo_for_jodel:
-    build: ./mongo
+    image: mongo:latest
     ports:
         - "27017"
         - "27018"
